@@ -158,7 +158,7 @@ public class ReplayFragment extends BaseNetworkFragment implements LoggingFragme
 
         // init replayer and mode
         mReplayer = new UIReplayer(reader);
-        getNfc().startMode(new UIReplayMode(reader));
+        getNfc().startMode(new UIReplayMode(reader), null);
 
         // initial tickle required for tag replay
         tickleReplayer();
@@ -243,7 +243,7 @@ public class ReplayFragment extends BaseNetworkFragment implements LoggingFragme
 
             if (!mOfflineReplay) {
                 mReplayNetwork = new NetworkManager(getMainActivity(), this);
-                mReplayNetwork.connect();
+                mReplayNetwork.connect(requireContext());
             }
         }
 

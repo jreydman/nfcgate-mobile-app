@@ -1,5 +1,7 @@
 package de.tu_darmstadt.seemoo.nfcgate.nfc.modes;
 
+import android.content.Context;
+
 import de.tu_darmstadt.seemoo.nfcgate.network.data.NetworkStatus;
 import de.tu_darmstadt.seemoo.nfcgate.util.NfcComm;
 
@@ -12,7 +14,7 @@ public class RelayMode extends BaseMode {
     }
 
     @Override
-    public void onEnable() {
+    public void onEnable(Context context) {
         // reset polling on start
         mManager.resetConfig();
         // enable or disable reader mode
@@ -20,7 +22,7 @@ public class RelayMode extends BaseMode {
 
         // connect to the network
         if (mOnline)
-            mManager.getNetwork().connect();
+            mManager.getNetwork().connect(context);
     }
 
     @Override

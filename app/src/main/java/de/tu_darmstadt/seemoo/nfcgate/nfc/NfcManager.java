@@ -134,12 +134,12 @@ public class NfcManager implements NfcAdapter.ReaderCallback, NetworkManager.Cal
             enableDisableReaderMode();
     }
 
-    public void startMode(BaseMode mode) {
+    public void startMode(BaseMode mode, Context context) {
         mMode = mode;
 
         // enable
         mode.setManager(this);
-        mode.onEnable();
+        mode.onEnable(context);
     }
 
     public void stopMode() {

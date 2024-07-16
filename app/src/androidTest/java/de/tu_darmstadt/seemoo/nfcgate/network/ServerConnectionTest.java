@@ -82,7 +82,7 @@ public class ServerConnectionTest {
     }
 
     protected void testTLS(String host, Callback callback) throws InterruptedException {
-        ServerConnection conn = new ServerConnection(new TLSTransport(host, 443));
+        ServerConnection conn = new ServerConnection(new TLSTransport(host, 443, null));
         conn.setCallback(callback);
 
         conn.connect();
@@ -93,7 +93,7 @@ public class ServerConnectionTest {
     @Test
     public void testConnectPlainSuccess() throws InterruptedException {
         {
-            ServerConnection conn = new ServerConnection("badssl.com", 443, true);
+            ServerConnection conn = new ServerConnection("badssl.com", 443, true, null);
             Callback callback = new Callback(NetworkStatus.CONNECTED);
             conn.setCallback(callback);
 

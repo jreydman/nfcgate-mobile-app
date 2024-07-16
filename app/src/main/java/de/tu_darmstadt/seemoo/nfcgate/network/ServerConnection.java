@@ -1,5 +1,6 @@
 package de.tu_darmstadt.seemoo.nfcgate.network;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.io.IOException;
@@ -35,8 +36,8 @@ public class ServerConnection {
     // metadata
     private Callback mCallback;
 
-    ServerConnection(String hostname, int port, boolean tls) {
-        this(tls ? new TLSTransport(hostname, port) : new PlainTransport(hostname, port));
+    ServerConnection(String hostname, int port, boolean tls, Context context) {
+        this(tls ? new TLSTransport(hostname, port, context) : new PlainTransport(hostname, port));
     }
 
     ServerConnection(Transport transport) {

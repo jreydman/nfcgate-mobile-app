@@ -1,5 +1,7 @@
 package de.tu_darmstadt.seemoo.nfcgate.nfc.modes;
 
+import android.content.Context;
+
 import de.tu_darmstadt.seemoo.nfcgate.network.data.NetworkStatus;
 import de.tu_darmstadt.seemoo.nfcgate.nfc.NfcManager;
 import de.tu_darmstadt.seemoo.nfcgate.util.NfcComm;
@@ -13,7 +15,7 @@ public abstract class BaseMode {
     }
 
     // lifetime methods
-    public abstract void onEnable();
+    public abstract void onEnable(Context context);
     public abstract void onDisable();
 
     // action and log methods

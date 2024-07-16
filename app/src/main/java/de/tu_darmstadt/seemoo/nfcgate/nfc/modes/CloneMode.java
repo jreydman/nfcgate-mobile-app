@@ -1,11 +1,13 @@
 package de.tu_darmstadt.seemoo.nfcgate.nfc.modes;
 
+import android.content.Context;
+
 import de.tu_darmstadt.seemoo.nfcgate.network.data.NetworkStatus;
 import de.tu_darmstadt.seemoo.nfcgate.util.NfcComm;
 
 public class CloneMode extends BaseMode {
     @Override
-    public void onEnable() {
+    public void onEnable(Context context) {
         // reset polling and config
         mManager.resetConfig();
     }

@@ -172,7 +172,7 @@ public class CloneFragment extends BaseFragment {
 
         // start custom clone mode
         getNfc().stopMode();
-        getNfc().startMode(new UICloneMode());
+        getNfc().startMode(new UICloneMode(), null);
     }
 
     private void beginSave() {

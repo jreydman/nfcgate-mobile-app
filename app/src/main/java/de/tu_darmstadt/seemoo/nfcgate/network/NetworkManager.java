@@ -1,5 +1,6 @@
 package de.tu_darmstadt.seemoo.nfcgate.network;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 import android.util.Log;
@@ -36,7 +37,7 @@ public class NetworkManager implements ServerConnection.Callback {
         mCallback = cb;
     }
 
-    public void connect() {
+    public void connect(Context context) {
         // read fresh preference data
         loadPreferenceData();
 
@@ -47,7 +48,7 @@ public class NetworkManager implements ServerConnection.Callback {
         // establish connection
         boolean tlsEnabled = PreferenceManager.getDefaultSharedPreferences(mActivity)
                 .getBoolean("tls", false);
-        mConnection = new ServerConnection(mHostname, mPort, tlsEnabled)
+        mConnection = new ServerConnection(mHostname, mPort, tlsEnabled, context)
                 .setCallback(this)
                 .connect();
 

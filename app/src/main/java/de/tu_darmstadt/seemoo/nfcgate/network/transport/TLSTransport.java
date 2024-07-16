@@ -1,19 +1,25 @@
 package de.tu_darmstadt.seemoo.nfcgate.network.transport;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLSocket;
@@ -28,18 +34,38 @@ public class TLSTransport extends Transport {
     private static final String TAG = "TLSTransport";
     protected SSLContext mSslContext;
 
-    public TLSTransport(String hostname, int port) {
+    public TLSTransport(String hostname, int port, Context context) {
         super(hostname, port);
 
-        createSslContext();
+        createSslContext(context);
     }
 
-    protected void createSslContext() {
+    protected void createSslContext(Context context) {
         try {
+            // Путь к файлу клиентского сертификата
+            String keyStorePath = "assets/certeficate/client.p12";
+            // Пароль для хранилища ключей
+            String keyStorePassword = "mypassword";
+
+
+
+            // Загружаем клиентский сертификат и ключ из хранилища ключей (KeyStore)
+            KeyStore keyStore = KeyStore.getInstance("PKCS12");
+            InputStream keyStoreInput = context.getAssets().open("certeficate/client.p12");
+            keyStore.load(keyStoreInput, keyStorePassword.toCharArray());
+            keyStoreInput.close();
+
+            // Создаем KeyManagerFactory и инициализируем его нашим хранилищем ключей
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            keyManagerFactory.init(keyStore, keyStorePassword.toCharArray());
+
+            // Создаем SSL-контекст
             mSslContext = SSLContext.getInstance("TLS");
-            mSslContext.init(null, buildTrustManagers(), null);
-        } catch (NoSuchAlgorithmException | KeyManagementException e) {
-            Log.wtf(TAG, "Cannot instantiate SSLContext");
+
+            // Инициализируем SSL-контекст с KeyManager и TrustManager
+            mSslContext.init(keyManagerFactory.getKeyManagers(), buildTrustManagers(), new SecureRandom());
+        } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException | IOException | CertificateException | UnrecoverableKeyException e) {
+            Log.wtf("YourTag", "Cannot instantiate SSLContext");
             throw new RuntimeException(e);
         }
     }
