@@ -1,5 +1,4 @@
-NFCGate
-=======
+# NFCGate
 
 NFCGate is an Android application meant to capture, analyze, or modify NFC traffic. It can be used
 as a researching tool to reverse engineer protocols or assess the security of protocols against
@@ -15,6 +14,8 @@ This application was developed for security research purposes by students of
 the [Secure Mobile Networking Lab](https://www.seemoo.tu-darmstadt.de/)
 at [TU Darmstadt](https://www.tu-darmstadt.de/). Please do not use this application for malicious
 purposes.
+
+![Verify addon](doc/media/verify-addon-status.jpg)
 
 ## Features
 
@@ -171,8 +172,8 @@ The initial NFCGate paper describing the first version of NFCGate can be cited a
 
 ## Contact
 
-* [Steffen Klee](https://www.seemoo.tu-darmstadt.de/team/sklee/)
-* [Max Maass](https://www.seemoo.tu-darmstadt.de/team/mmaass/)
+- [Steffen Klee](https://www.seemoo.tu-darmstadt.de/team/sklee/)
+- [Max Maass](https://www.seemoo.tu-darmstadt.de/team/mmaass/)
 
 ## Used Libraries
 
