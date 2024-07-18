@@ -1,0 +1,93 @@
+plugins {
+    id 'com.android.application'
+}
+
+// load keystore properties from secure files in GitLab
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('.ci-files/release-keystore.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    namespace 'de.tu_darmstadt.seemoo.nfcgate'
+
+    compileSdk 34
+    ndkVersion '22.1.7171670'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId 'de.tu_darmstadt.seemoo.nfcgate'
+        minSdkVersion 19
+        targetSdkVersion 34
+        multiDexEnabled true
+        versionCode 12
+        versionName '2.4.2'
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // output full debug symbols in every configuration for stack trace symbolization
+        ndk {
+            debugSymbolLevel 'FULL'
+        }
+    }
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword System.getenv("SIGNING_KEYSTORE_PASSWORD")
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword System.getenv("SIGNING_KEYSTORE_KEY_PASSWORD")
+        }
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+}
+
+dependencies {
+    //This must *NOT* be included
+    //compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':nfcd')
+    implementation project(':protobuf')
+    implementation "com.google.protobuf:protobuf-javalite:${protobufVersion}"
+
+    // support libraries
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'androidx.preference:preference:1.2.1'
+
+    // About
+    implementation 'com.github.medyo:android-about-page:1.2.4'
+
+    // Detect phone model
+    implementation 'com.jaredrummler:android-device-names:2.1.1'
+
+    // Room
+    implementation 'androidx.room:room-runtime:2.6.1'
+    annotationProcessor 'androidx.room:room-compiler:2.6.1'
+
+    // Lifecycle
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
+
+    // testing
+    androidTestImplementation 'androidx.test:runner:1.5.0'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
+}

@@ -1,0 +1,55 @@
+image: viaduck/ci:android
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  # to be set by user in manual pipeline
+  SIGNING_KEYSTORE_PASSWORD:
+    description: "Keystore password"
+  SIGNING_KEYSTORE_KEY_PASSWORD:
+    description: "Password for key in keystore"
+
+default:
+  before_script:
+    - export ANDROID_HOME=/android/sdk
+    - export PATH=$PATH:$ANDROID_HOME/platform-tools
+    - export GRADLE_USER_HOME=/gradle-cache/.gradle
+
+stages:
+  - build
+  - test
+  - release
+
+build:
+  stage: build
+  script:
+    - ./gradlew assembleDebug --info
+  artifacts:
+    paths:
+      # collects APKs, logs, mapping/symbol files, etc.
+      - app/build/outputs/
+    name: "NFCGate-debug"
+
+release:
+  stage: release
+  rules:
+    # create manually run pipeline only for tags
+    - if: $CI_COMMIT_TAG
+      when: manual
+  script:
+    # move CI variable files to predictable locations
+    - mkdir -p .ci-files/
+    - mv "$FILE_RELEASE_KEYSTORE_PROPERTIES" .ci-files/release-keystore.properties
+    - base64 -d "$FILE_RELEASE_KEYSTORE" > .ci-files/release-keystore.jks
+    - '[[ -s ".ci-files/release-keystore.properties" ]] || (echo "Empty signing properties. Aborting." && exit 1)'
+    - '[[ -s ".ci-files/release-keystore.jks" ]] || (echo "Empty keystore. Aborting." && exit 2)'
+    - '[[ -z "$SIGNING_KEYSTORE_PASSWORD" || -z "$SIGNING_KEYSTORE_KEY_PASSWORD" ]] && (echo "Missing SIGNING_KEYSTORE_PASSWORD and SIGNING_KEYSTORE_KEY_PASSWORD variables. Aborting." && exit 3)'
+    - ls -la .ci-files/
+    # start clean
+    - '[[ -e app/build/ ]] && rm -rf app/build/'
+    # create release-signed APK
+    - ./gradlew assembleRelease --info
+  artifacts:
+    paths:
+      # collects APKs, logs, mapping/symbol files, etc.
+      - app/build/outputs/
+    name: "NFCGate-release"

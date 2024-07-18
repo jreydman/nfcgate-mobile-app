@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/settings_title"
+        android:key="general"
+        >
+        <CheckBoxPreference
+            android:title="@string/settings_workaround"
+            android:key="workaround"
+            android:enabled="false"
+
+            android:summary="@string/settings_workaround_summary"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/settings_network"
+        android:key="network"
+        >
+        <EditTextPreference
+            android:title="@string/settings_hostname"
+            android:key="host"
+
+            android:summary="@string/settings_hostname_summary"
+            android:dialogMessage="@string/settings_hostname_dialog"
+            />
+        <EditTextPreference
+            android:title="@string/settings_port"
+            android:key="port"
+
+            android:summary="@string/settings_port_summary"
+            android:dialogMessage="@string/settings_port_dialog"
+            android:inputType="number"
+            android:maxLength="5"
+            android:defaultValue="5566"
+            />
+        <CheckBoxPreference
+            android:title="@string/settings_tls"
+            android:key="tls"
+
+            android:summary="@string/settings_tls_summary"
+            android:defaultValue="false"
+            />
+        <Preference
+            android:title="@string/settings_reset_usertrust"
+            android:key="reset_usertrust"
+            android:summary="@string/settings_reset_usertrust_summary"
+            />
+        <CheckBoxPreference
+            android:title="@string/settings_client_verify"
+            android:key="client_verify_toggle"
+            android:summary="@string/settings_client_verify_summary"
+            android:defaultValue="false"
+            />
+        <Preference
+            android:title="@string/settings_client_verify_choose_summary"
+            android:key="client_verify_certificate"
+            />
+        <EditTextPreference
+            android:title="@string/settings_session"
+            android:key="session"
+
+            android:summary="@string/settings_session_summary"
+            android:dialogMessage="@string/settings_session_dialog"
+            android:inputType="number"
+            android:maxLength="2"
+            android:defaultValue="1"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/settings_replay"
+        android:key="replay"
+        >
+        <CheckBoxPreference
+            android:title="@string/settings_adv_replay"
+            android:key="network"
+
+            android:summary="@string/settings_adv_replay_summary"
+            />
+        <ListPreference
+            android:title="@string/settings_replay_mode"
+            android:key="mode"
+
+            android:summary="@string/settings_replay_mode_summary"
+            android:entries="@array/replay_mode_names"
+            android:entryValues="@array/replay_mode_values"
+            android:defaultValue="index"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

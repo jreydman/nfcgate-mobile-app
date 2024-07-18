@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:scrollbars="none"
+    >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="true"
+        android:orientation="vertical"
+        >
+
+        <TableRow>
+            <TextView
+                android:gravity="end"
+                android:padding="8dp"
+                android:text="@string/dialog_usertrust_cert_subject_dn"
+                />
+
+            <TextView
+                android:id="@+id/certificate_subject_dn"
+                android:layout_weight="1"
+                android:padding="8dp"
+                tools:text="this is some very huge and long text abc"
+                />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:gravity="end"
+                android:padding="8dp"
+                android:text="@string/dialog_usertrust_cert_issuer_dn"
+                />
+
+            <TextView
+                android:id="@+id/certificate_issuer_dn"
+                android:layout_weight="1"
+                android:padding="8dp"
+                tools:text="this is some very huge and long text abc"
+                />
+        </TableRow>
+
+
+        <TableRow>
+            <TextView
+                android:gravity="end"
+                android:padding="8dp"
+                android:text="@string/dialog_usertrust_cert_not_before"
+                />
+
+            <TextView
+                android:id="@+id/certificate_not_before"
+                android:layout_weight="1"
+                android:padding="8dp"
+                tools:text="Tue, 30 Jan 2024 02:15:24 GMT"
+                />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:gravity="end"
+                android:padding="8dp"
+                android:text="@string/dialog_usertrust_cert_not_after" />
+
+            <TextView
+                android:id="@+id/certificate_not_after"
+                android:layout_weight="1"
+                android:padding="8dp"
+                tools:text="Tue, 30 Jan 2024 02:15:24 GMT"
+                />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:gravity="end"
+                android:padding="8dp"
+                android:text="@string/dialog_usertrust_cert_public_key_info"
+                />
+
+            <TextView
+                android:id="@+id/certificate_public_key_info"
+                android:layout_weight="1"
+                android:padding="8dp"
+                tools:text="RSA (2048-bit)"
+                />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:gravity="end"
+                android:padding="8dp"
+                android:text="@string/dialog_usertrust_cert_fingerprint"
+                />
+
+            <TextView
+                android:id="@+id/certificate_fingerprint"
+                android:layout_weight="1"
+                android:fontFamily="monospace"
+                android:padding="8dp"
+                tools:text="00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF"
+                />
+        </TableRow>
+    </TableLayout>
+</ScrollView>
